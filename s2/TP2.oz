@@ -30,7 +30,25 @@ end
 
 
 % exo 8 
-
+local FindString S T  Count L C in 
+    L = nil 
+    Count = 0 
+    C = 0
+    fun{FindString S T Count}
+        case T of nil then L 
+            []_|T2 then 
+                if {list.prefix S T} then
+                    Count | {FindString S T2 Count+1}
+                else 
+                    {FindString S T2 Count+1}
+                end 
+            end 
+        end
+    end 
+{Browse {FindString [a b a b] [a b a b a b]}} % affiche [1 3]
+end 
+{Browse {FindString [a] [a b a b a b]}} % affiche [1 3 5]
+{Browse {FindString [c] [a b a b a b]}} % affiche nil
 
 
 
