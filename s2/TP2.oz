@@ -30,26 +30,70 @@ end
 
 
 % exo 8 
-local FindString S T  Count L C in 
-    L = nil 
-    Count = 0 
-    C = 0
-    fun{FindString S T Count}
-        case T of nil then L 
-            []_|T2 then 
-                if {list.prefix S T} then
-                    Count | {FindString S T2 Count+1}
+local 
+    fun{egale XS XR}
+        case XS of nil then 
+            case XR of nil then true
+            [] _ then false
+            end 
+        [] HS|TS
+            case XR of nil then false 
+            []HR|TR then 
+                if HS=HR then 
+                    {egale TS TR} 
                 else 
-                    {FindString S T2 Count+1}
+                    false
                 end 
             end 
-        end
+        end 
     end 
-{Browse {FindString [a b a b] [a b a b a b]}} % affiche [1 3]
-end 
-{Browse {FindString [a] [a b a b a b]}} % affiche [1 3 5]
-{Browse {FindString [c] [a b a b a b]}} % affiche nil
+
+    fun{FindString S T  Count }
+        case T of nil then nil
+
+        []H|T2
+            if {egale S [H|T2] }then 
+                Count |{FindString S T2 Count+1}
+            else 
+                {FindString S T2 Count+1}
+            end 
+        end 
+                
+    end 
+in
+    {Browse {FindString [a b a b] [a b a b a b] 1} % Show [1 3]
+end
+ 
+{Browse {FindString [a] [a b a b a b]}} % Show [1 3 5]
+{Browse {FindString [c] [a b a b a b]}} % Show nil
 
 
 
 %exo 10
+
+fun {Promenade BT}
+    case BT of
+       empty then
+          nil
+       btree(X, left: L, right: R) then
+          X | {Promenade L} @ {Promenade R}
+    end
+end
+ 
+
+%% affiche [42 26 54 18 37 11]
+{Browse
+ {Promenade
+  btree(42
+   left: btree(26
+    left: btree(54
+     left: empty
+     right: btree(18
+      left: empty
+      right: empty))
+    right: empty)
+   right: btree(37
+    left: btree(11
+     left: empty
+     right: empty)
+    right: empty))}}
