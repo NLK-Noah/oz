@@ -25,45 +25,42 @@ local Drop in
 {Browse {Drop [r a p h] 2}} % Résultat attendu : [p h]
 
 {Browse {Drop [r a p h] 7}} % affiche nil
-{Browse {Drop [r [a p] h] 2}} % quel est le resultat?
+{Browse {Drop [r [a p] h] 2}} % quel est le resultat? ça renvoit [h]
 end
 
 
-% exo 8 
-local 
-    fun{egale XS XR}
-        case XS of nil then 
-            case XR of nil then true
-            [] _ then false
-            end 
-        [] HS|TS
-            case XR of nil then false 
-            []HR|TR then 
-                if HS=HR then 
-                    {egale TS TR} 
-                else 
-                    false
-                end 
-            end 
-        end 
-    end 
+declare
 
-    fun{FindString S T  Count }
-        case T of nil then nil
 
-        []H|T2
-            if {egale S [H|T2] }then 
-                Count |{FindString S T2 Count+1}
-            else 
-                {FindString S T2 Count+1}
+fun {Prefix L1 L2}
+    case L1 of 
+        nil then true
+    [] H1|T1 then 
+        case L2 of 
+            nil then false
+        [] H2|T2 then 
+            if H1 == H2 then {Prefix T1 T2}
+            else false  
             end 
+        end  
+    end
+end  
+
+
+fun {FindString S T I}
+    case T of 
+        nil then nil 
+    [] H|T1 then
+        if {Prefix S T} then 
+            I | {FindString S T1 I+1}  
+        else
+            {FindString S T1 I+1}  
         end 
-                
-    end 
-in
-    {Browse {FindString [a b a b] [a b a b a b] 1} % Show [1 3]
+    end
 end
- 
+
+{Browse {FindString [a b a b] [a b a b a b] 1}}  % Affiche [1 3]
+
 {Browse {FindString [a] [a b a b a b]}} % Show [1 3 5]
 {Browse {FindString [c] [a b a b a b]}} % Show nil
 
