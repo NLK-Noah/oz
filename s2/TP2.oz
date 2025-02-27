@@ -125,3 +125,19 @@ fun{AddAll L N}
     {Applique L Add2}
 end 
 {Browse {AddAll [1 2 3] 2}}
+
+%exo 14
+
+{Browse {Label a#b#c}} % affiche '#'
+{Browse {Width un#tres#long#tuple#tres#tres#long}} % affiche la longuer donc 5
+{Browse {Arity 1#4#16}} % afficehe la liste [1 2 3]
+
+fun {SameLength Xs Ys}
+    case Xs#Ys % le cas ou ou le tuple entre Xs er Ys est nul on renvoit tur 
+    of nil#nil then true
+    [] (X|Xr)#(Y|Yr) then {SameLength Xr Yr} % Sinon on on avance encore dans les différents listes 
+        % et on rapelle la samelength avec la tail de chaque liste et renvoit false 
+    else false
+    end
+    end
+    4
