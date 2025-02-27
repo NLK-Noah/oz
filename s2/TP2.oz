@@ -108,8 +108,8 @@ end
 
 fun {Lol X} lol(X) end
 {Browse {Applique [1 2 3] Lol}} % Affiche [lol(1) lol(2) lol(3)]
-fun {square X } X*X end 
-{Browse {Applique [1 2 3] square}}
+fun {Square X } X*X end 
+{Browse {Applique [1 2 3] Square}}
 
 
 declare
@@ -122,9 +122,6 @@ Add5 = {MakeAdder 5}
 declare
 Add2 = {MakeAdder 2}
 fun{AddAll L N}
-    case L of nil then nil 
-    []H|T then
-    {Applique H Add2}|{AddAll T N}
-    end 
+    {Applique L Add2}
 end 
 {Browse {AddAll [1 2 3] 2}}
