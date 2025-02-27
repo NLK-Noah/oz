@@ -46,6 +46,7 @@ fun {Prefix L1 L2}
     end
 end  
 
+    
 
 fun {FindString S T I}
     case T of 
@@ -61,20 +62,20 @@ end
 
 {Browse {FindString [a b a b] [a b a b a b] 1}}  % Affiche [1 3]
 
-{Browse {FindString [a] [a b a b a b]}} % Show [1 3 5]
-{Browse {FindString [c] [a b a b a b]}} % Show nil
+{Browse {FindString [a] [a b a b a b] 1}} % Show [1 3 5]
+{Browse {FindString [c] [a b a b a b] 1}} % Show nil
 
 
 
 %exo 10
 
+declare 
 fun {Promenade BT}
-    case BT of
-       empty then
-          nil
-       btree(X, left: L, right: R) then
-          X | {Promenade L} @ {Promenade R}
-    end
+   case BT of empty then nil
+   [] btree(X left: L right: R) then
+        %{Browse result( BT {Promenade L} {Promenade R})}
+      X|{Promenade L}|{Promenade R}
+   end
 end
  
 
@@ -94,3 +95,36 @@ end
      left: empty
      right: empty)
     right: empty))}}
+
+%exo 13 
+
+declare
+fun{Applique L F }
+    case L of nil then nil 
+    []H|T then 
+        { F H} | {Applique T F}
+    end
+end 
+
+fun {Lol X} lol(X) end
+{Browse {Applique [1 2 3] Lol}} % Affiche [lol(1) lol(2) lol(3)]
+fun {square X } X*X end 
+{Browse {Applique [1 2 3] square}}
+
+
+declare
+fun{MakeAdder N}
+    fun {$X} N+X end 
+end 
+Add5 = {MakeAdder 5}
+{Browse {Add5 13}} % Affiche 18
+
+declare
+Add2 = {MakeAdder 2}
+fun{AddAll L N}
+    case L of nil then nil 
+    []H|T then
+    {Applique H Add2}|{AddAll T N}
+    end 
+end 
+{Browse {AddAll [1 2 3] 2}}
