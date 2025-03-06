@@ -28,27 +28,26 @@ proc {Sum R N}
 % la valeur à un identificateur; eg. One = 1
 % -> One = 1; B = (N == One); if B then ... end
     local B One in
-    One = 1
-
-    B= (N == One)
-    if  B  then 
-        local One in
-            One = 1 
-            R=1
-        end
-    else
-        Local RE One B R X  in  % Chris: sucre syntaxique, en noyaux faut mettre local ... in ... end
-            One = 1 
-            X= N*N 
-            B = N-One
-            {Sum RE B}
-            % Chris: une statement par ligne -> A decomposer en plusieurs lignes
-            R= R +RE % Chri
-            
+        One = 1
+        B= (N == One)
+        if  B  then 
+            local One in
+                One = 1 
+                R=1
+            end
+        else
+            local RE One B R X  in  % Chris: sucre syntaxique, en noyaux faut mettre local ... in ... end
+                One = 1 
+                X= N*N 
+                B = N-One
+                {Sum RE B}
+                % Chris: une statement par ligne -> A decomposer en plusieurs lignes
+                R= R +RE % Chris
+            end 
         end
     end
 end
-end
+
 declare R  
 {Sum R 5}  
 {Browse R}
@@ -67,23 +66,23 @@ end
 declare 
 proc {SumAux R N Acc}
     local One  B in
-    One = 1
-    B = (N==One)
-        local One V in
-            One = 1
-            V = Acc + One
-            if B  then 
-                R = V 
+        One = 1
+        B = (N==One)
+            local One V in
+                One = 1
+                V = Acc + One
+                if B  then 
+                    R = V 
     
-            else
-                local RE  B One  V in 
-                    B =N*N
-                    RE = B + Acc
-                    V = N-One  
-                    {SumAux R V RE} 
-                end
-            end 
-        end
+                else
+                    local RE  B One  V in 
+                        B =N*N
+                        RE = B + Acc
+                        V = N-One  
+                        {SumAux R V RE} 
+                    end
+                end 
+            end
     end 
 end 
 declare R 
