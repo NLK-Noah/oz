@@ -136,7 +136,7 @@ fun {SameLength Xs Ys}
     case Xs#Ys % le cas ou ou le tuple entre Xs er Ys est nul on renvoit tur 
     of nil#nil then true
     [] (X|Xr)#(Y|Yr) then {SameLength Xr Yr} % Sinon on on avance encore dans les différents listes 
-        % et on rapelle la samelength avec la tail de chaque liste et renvoit false 
+        % et on rapelle la samelength avec la tail de chaque liste et renvoit false
     else false
     end
     end
