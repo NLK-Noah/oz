@@ -93,21 +93,59 @@ end
 %exo 4
 
 %programme 1 
-local Res in % Declaration de variable Res vide
-    local Arg1 Arg2 in  % Declaration de varibles Arg1 Arg2 vide 
-        Arg1=7 % Arg1 prends en valeur 7
-        Arg2=6 % Arg2 prends en valeur 6
-        Res=Arg1 * Arg2 % Res prends en valeur la multiplication de Arg1 et Arg2 6*7 =42
+local Res in 
+    local Arg1 Arg2 in   
+        Arg1=7                %S1 ( Browse -> browse ) , (browse = (proc{$x}...end , ..), res , arg1 , arg2)
+                              %S2(Res->res), browse = (proc{$x}...end , ..), res , arg1 , arg2)
+                              %S3(Arg1->arg1 , Arg2 -> arg2),browse = (proc{$x}...end , ..), res , arg1 , arg2)
+                              %S4(Browse -> browse , Res -> res , Arg1 -> arg1 , Arg2 -> arg2) ,browse = (proc{$x}...end , ..), res , arg1 =7 , arg2)
+                              %S5 (//),browse = (proc{$x}...end , ..), res , arg1 =7 , arg2 =6 )
+                              %S6(//),browse = (proc{$x}...end , ..), res =7x6 , arg1 =7 , arg2 = 6)
+                              %S7(Browse -> browse  ) , (proc{$x}...end , ..), res =7x6
+                              %S8 (Browse -> browse  ) , (proc{$x}...end , ..), res =7x6
+
+        Arg2=6 
+        Res=Arg1 * Arg2 
     end 
-    {Browse Res} % affiche 42
+    {Browse Res} 
 end
 
 % programme 2 
-local Res in % Declaration de variable Res vide
-    local Arg1 Arg2 in % Declaration de varibles Arg1 Arg2 vide 
-        Arg1 = 7 %1 % Arg1 prends en valeur 7
-        Res = Arg1* Arg2 %3 % Res prends en valeur la multiplication de Arg1 et Arg2 vide*7 =vide
-        Arg2=6 %2 % Arg2 prends en valeur 6
+local Res in 
+    local Arg1 Arg2 in 
+        Arg1 = 7                            %S1 ( Browse -> browse ) , (browse = (proc{$x}...end , ..), res , arg1 , arg2)
+                                            %S2(Res->res), browse = (proc{$x}...end , ..), res , arg1 , arg2)
+                                            %S3(Arg1->arg1 , Arg2 -> arg2),browse = (proc{$x}...end , ..), res , arg1 , arg2)
+                                            %S4(Browse -> browse , Res -> res , Arg1 -> arg1 , Arg2 -> arg2) ,browse = (proc{$x}...end , ..), res , arg1 =7 , arg2)
+                                            %code va bloquer car arg 2 pas défini 
+        Res = Arg1* Arg2 
+        Arg2=6 
     end 
-    {Browse Res}% devrait afficher vide mais si on retourne ça fait 42
+    {Browse Res}
 end 
+
+
+%exo 5 
+%S1(local MakeAdd end ),(Makeadd -> makeadd , Add1->add1 , Add2->add2 ) , (makeadd , add1 , add2)
+%S2(proc end  ,Add1->add1,Add2->add2, X -> x , Add -> add) , (browse = makeadd =(proc ...),add1,add2, x , add)
+%S3( //,// Y-> Z->z ) , (// y , z)
+%S4(//),(//)z=x+Y
+%S5(MakeAdd),(add1=proc end )
+%S6(//),(add2 = proc .. end )
+%S7[(//),Makeadd  ) , (x=1 , add1=proc() y=42 v=43)
+local MakeAdd Add1 Add2 in
+    proc {MakeAdd X Add}
+        proc {Add Y Z}
+        Z=X+Y
+        end
+    end
+    {MakeAdd 1 Add1}
+    {MakeAdd 2 Add2}
+    local V in
+    {Add1 42 V} {Browse V}
+    end
+    local V in
+    {Add2 42 V} {Browse V}
+    end
+end
+    
