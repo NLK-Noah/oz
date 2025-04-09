@@ -56,8 +56,36 @@ Local Eval S Z in
         else H|T then {Eval T {Push Z H}}     
     end
 end
- Z = [58 106]
-X = [
+Z = [58 106]
+
+local Eval S Z in 
+    Z = {NewStack}
+    fun { Eval S}
+        case S of nil then {Z.pop}
+        []'+'then local A B in 
+            A = {A.pop}
+            B = {B.pop}
+            {Z.puhs A+B}
+            {Eval S.2}
+        else {Z.push S.1}
+            {Eval S.2}
+
+
+fun{NewStack}
+    A={NewCell nil}
+    fun{IsEmpty} @A == nil end 
+    fun{Push X} A:= X|@A end 
+    fun{Pop}
+        if{IsEmpty} then nil
+        else local x in 
+            x =A.1
+            A:=A.2
+            x 
+        end
+    end
+end
+in stack(IsEmpty:IsEmpty push:push pop:pop)
+end 
 
 
 {Browse {Eval [13 45 '+' 89 17 '+' '*']}} % affiche 4176 = (13+45)*(89-17)
