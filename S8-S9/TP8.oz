@@ -107,3 +107,67 @@ thread Xs = {ProduceInts 10} end
 thread F =  {Filter Xs} end
 thread R = {Add F} end 
 {Browse R} 
+
+
+%Charlotte 
+declare 
+fun {Barman N}
+    fun {BarmanAux C}
+        if C == N then nil 
+        else 
+            B = {ServeBeer}
+            {Delay 3000}
+            B|{BarmanAux C+1}
+        end 
+    end
+    in
+    {BarmanAux 0}
+end
+
+declare
+fun {Charlotte Str }
+    fun{CharlotteAux Str C V }
+        case Str of nil then C V 
+        []Beer|T then 
+            if {SmellTrappist Beer} == True then {CharlotteAux T C+1 V}
+            else {CharlotteAux T C V+1}
+            end 
+        end
+    end
+    in
+        {CharlotteAux Str 0 0}
+end
+
+declare Xs R 
+thread Xs={Barman 10}end
+thread R = {Charlotte Xs}end
+{Browse R}
+
+%exercise 5 
+declare 
+fun {Counter InS}
+    fun {CounterAux InS Z E R seen}
+        case InS of nil then nil
+        [] H|T then 
+            if H == a then 
+                I={Label seen H}
+                (U|[H#I]) | {CounterAux T Z+1 E R seen(H:Z+1)} 
+            elseif H == b then 
+                I={Label seen H}
+                (U|[H#E+1]) | {CounterAux T Z E+1 R seen(H:E+1)} 
+            else 
+                I={Label seen H}
+                (U|[H#R+1]) | {CounterAux T Z E R+1 seen(H:R+1)} 
+            end 
+        end 
+    end 
+in
+    {CounterAux InS 0 0 0 seen()}
+end 
+
+local InS in
+    InS = a|b|a|c|nil
+    {Browse {Counter InS}}
+end
+
+%[a#1]|[a#1 b#1]|[a#2 b#1]|[a#2 b#1 c#1]|_
